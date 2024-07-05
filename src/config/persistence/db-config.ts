@@ -5,6 +5,7 @@ export default registerAs('dbConfig', () => {
     db: {
       connection: process.env.DB_CONNECTION,
       host: process.env.DB_HOST,
+      mongoHost: process.env.MONGO_HOST,
       name: process.env.DB_NAME,
       user: process.env.DB_USER,
       cluster: process.env.DB_CLUSTER,

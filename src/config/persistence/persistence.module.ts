@@ -17,9 +17,9 @@
         useFactory: (configService: ConfigType<typeof dbConfig>) => {
           const { db, env } = configService;
           const uriDb =
-            env === 'local'
+            env === process.env.ENVIROMENT
               ? `${db.connection}${db.host}/${db.name}`
-              : `${db.host}/${db.user}:${db.password}${db.cluster}/${db.name}?retryWrites=true&w=majority`;
+              : `${db.mongoHost}/${db.user}:${db.password}${db.cluster}/${db.name}?retryWrites=true&w=majority`;
           return {
             uri: uriDb,
           };
