@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { persistenceModule } from './config/persistence/persistence.module';
 import { ConfigModule } from '@nestjs/config';
+import { DiscordBotModule } from './modules/discord-bot/discord-bot.module';
 import dbConfig from './config/persistence/db-config';
 
 
@@ -11,7 +12,8 @@ import dbConfig from './config/persistence/db-config';
       load:  [dbConfig],
       envFilePath: '.env',
     }),
-    persistenceModule
+    persistenceModule,
+    DiscordBotModule
   ],
   controllers: [],
   providers: [],
