@@ -1,27 +1,21 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { CreateDiscordBotDto, UpdateDiscordBotDto } from '../dto';
 import { Client, GatewayIntentBits, TextChannel, ChannelType } from 'discord.js';
+import { SentTipsService } from './send-tip.service';
 
 
 @Injectable()
-export class DiscordBotService {
-  create(createDiscordBotDto: CreateDiscordBotDto) {
-    return 'This action adds a new discordBot';
+export class DiscordService implements OnModuleInit {
+  private readonly client: Client;
+
+  constructor(private readonly sentTipsService: SentTipsService) {
+    this.client = new Client({
+      intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages]
+    });
   }
 
-  findAll() {
-    return `This action returns all discordBot`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} discordBot`;
-  }
-
-  update(id: number, updateDiscordBotDto: UpdateDiscordBotDto) {
-    return `This action updates a #${id} discordBot`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} discordBot`;
+  
+  onModuleInit() {
+    throw new Error('Method not implemented.');
   }
 }

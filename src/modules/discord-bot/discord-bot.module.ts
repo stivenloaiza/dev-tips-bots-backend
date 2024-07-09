@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { DiscordBotService } from './services/discord-bot.service';
+import { DiscordService } from './services/discord-bot.service';
 import { DiscordBotController } from './controllers/discord-bot.controller';
+import { SentTipsService } from './services/send-tip.service';
 
 @Module({
   controllers: [DiscordBotController],
-  providers: [DiscordBotService],
+  providers: [DiscordService, SentTipsService],
 })
 export class DiscordBotModule {}
