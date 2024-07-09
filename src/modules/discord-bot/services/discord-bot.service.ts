@@ -20,4 +20,14 @@ export class DiscordService implements OnModuleInit {
       console.log(`Logged in as ${this.client.user.tag}!`);
     });
   }
+
+  formatTipMessage(tip: any): string {
+    let message = `
+      **📝Tip title:**\n ${tip.title}\n\n🧠 **Description:**\n ${tip.body}\n\n⚡ **Seniority:**\n ${tip.level}\n\n❓ **Lenguage:**\n ${tip.technology}`;
+    if (tip.link) {
+      message += `\n\n📚 **Resource:** \n Checkout more info in this [website](${tip.link})!`;
+    }
+    return message;
+  }
 }
+
