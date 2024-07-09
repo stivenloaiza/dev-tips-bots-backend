@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { DiscordService } from '../services/discord-bot.service';
-import { CreateDiscordBotDto, UpdateDiscordBotDto } from '../dto';
+import { CreateDiscordTipDto, UpdateDiscordBotDto } from '../dto';
 
 @Controller('discord-bot')
 export class DiscordBotController {

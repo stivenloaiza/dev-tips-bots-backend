@@ -1,5 +1,4 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { CreateDiscordBotDto, UpdateDiscordBotDto } from '../dto';
 import { Client, GatewayIntentBits, TextChannel, ChannelType } from 'discord.js';
 import { SentTipsService } from './send-tip.service';
 
