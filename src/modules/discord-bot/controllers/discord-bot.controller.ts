@@ -1,12 +1,12 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { DiscordBotService } from './discord-bot.service';
-import { CreateDiscordBotDto } from './dto/create-discord-bot.dto';
-import { UpdateDiscordBotDto } from './dto/update-discord-bot.dto';
+import { DiscordService } from '../services/discord-bot.service';
+import { CreateDiscordBotDto } from '../dto';
+import { UpdateDiscordBotDto } from '../dto';
 
 @Controller('discord-bot')
 export class DiscordBotController {
-  constructor(private readonly discordBotService: DiscordBotService) {}
-
+  constructor(private readonly discordBotService: DiscordService) {}
+/* 
   @Post()
   create(@Body() createDiscordBotDto: CreateDiscordBotDto) {
     return this.discordBotService.create(createDiscordBotDto);
@@ -30,5 +30,5 @@ export class DiscordBotController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.discordBotService.remove(+id);
-  }
+  } */
 }
