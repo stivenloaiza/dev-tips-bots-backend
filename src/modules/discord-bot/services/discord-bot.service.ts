@@ -13,8 +13,11 @@ export class DiscordService implements OnModuleInit {
     });
   }
 
-  
-  onModuleInit() {
-    throw new Error('Method not implemented.');
+
+  async onModuleInit() {
+    await this.client.login(process.env.BOT_TOKEN);
+    this.client.on('ready', () => {
+      console.log(`Logged in as ${this.client.user.tag}!`);
+    });
   }
 }
