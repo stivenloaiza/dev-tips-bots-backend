@@ -24,7 +24,7 @@ export class Logs {
     language: string;
 
     @Prop()
-    groupId: number;
+    channelId: number;
 
     @Prop()
     createddAt: Date;
