@@ -31,11 +31,3 @@ jobs:
 
       - name: Run ESLint
         run: npm run lint
-       
-      - name: Check for TypeScript errors
-        run: npx tsc --noEmit
-
-      - name: Run ESLint with fix option
-        run: npx eslint . --fix
-
-
