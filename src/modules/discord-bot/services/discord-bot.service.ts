@@ -1,17 +1,22 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { ChannelType, Client, GatewayIntentBits, TextChannel } from 'discord.js';
 import { SentTipsService } from './send-tip.service';
-/* import { Logs } from '../entities/discord-log-entity';*/
+import { Logs } from '../entities/discord-log-entity';
 import { CreateDiscordTipDto } from '../dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 
 
 @Injectable()
 export class DiscordService implements OnModuleInit {
   private readonly client: Client;
 
-  constructor(private readonly sentTipsService: SentTipsService) {
+  constructor(
+    private readonly sentTipsService: SentTipsService,
+    @InjectModel(Logs.name) private logsModel: Model<Logs>,
+  ) {
     this.client = new Client({
-      intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages]
+      intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
     });
   }
 
@@ -41,6 +46,9 @@ export class DiscordService implements OnModuleInit {
 
       if (channel && channel.type === ChannelType.GuildText) {
         response = await (channel as TextChannel).send(this.formatTipMessage(CreateDiscordTipDto));
+
+        // Save to MongoDB
+        await this.saveTipToDatabase(CreateDiscordTipDto);
       } else {
         console.error(`Channel ${channelId} is not a text channel.`);
       }
@@ -49,4 +57,37 @@ export class DiscordService implements OnModuleInit {
       console.log(err);
     }
   }
+
+  async saveTipToDatabase(createDiscordTip: CreateDiscordTipDto): Promise<Logs> {
+    const createdTip = new this.logsModel({
+      ...createDiscordTip,
+      createdAt: new Date(),
+    });
+    return createdTip.save();
+  }
+
+
+    // Method to get all tips
+    async getAllTips(): Promise<Logs[]> {
+      return this.logsModel.find().exec();
+    }
+
+    // Method to get a tip by ID
+  async getTipById(id: string): Promise<Logs> {
+    const tip = await this.logsModel.findById(id).exec();
+    if (!tip) {
+      throw new NotFoundException(`Tip with ID ${id} not found`);
+    }
+    return tip;
+  }
+
+  // Method to delete a tip by ID
+  async deleteTipById(id: string): Promise<void> {
+    const result = await this.logsModel.deleteOne({ _id: id }).exec();
+    if (result.deletedCount === 0) {
+      throw new NotFoundException(`Tip with ID ${id} not found`);
+    }
+  }
 }
+
+
