@@ -1,6 +1,7 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { Client, GatewayIntentBits} from 'discord.js';
+import { Client, GatewayIntentBits } from 'discord.js';
 /* import { SentTipsService } from './send-tip.service'; */
+
 
 @Injectable()
 export class DiscordService implements OnModuleInit {
