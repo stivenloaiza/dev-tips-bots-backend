@@ -1,9 +1,8 @@
-/* import { Injectable, OnModuleInit } from '@nestjs/common';
-import { Client, GatewayIntentBits} from 'discord.js'; */
+import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Client, GatewayIntentBits} from 'discord.js';
 /* import { SentTipsService } from './send-tip.service'; */
 
-
-/* @Injectable()
+@Injectable()
 export class DiscordService implements OnModuleInit {
   private readonly client: Client;
 
@@ -17,4 +16,4 @@ export class DiscordService implements OnModuleInit {
   onModuleInit() {
     throw new Error('Method not implemented.');
   }
-} */
+}
