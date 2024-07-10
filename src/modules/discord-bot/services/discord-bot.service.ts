@@ -1,6 +1,7 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { Client, GatewayIntentBits} from 'discord.js';
 import { SentTipsService } from './send-tip.service';
+import { Logs } from '../entities/discord-log-entity';
 
 
 @Injectable()
@@ -28,5 +29,14 @@ export class DiscordService implements OnModuleInit {
       message += `\n\n📚 **Resource:** \n Checkout more info in this [website](${tip.link})!`;
     }
     return message;
+  }
+
+  async getTip(CreateDiscordTipDto): Promise<Logs[]>{
+    try{
+      return CreateDiscordTipDto
+    }catch(err){
+      console.log(err);
+    }
+    
   }
 }
