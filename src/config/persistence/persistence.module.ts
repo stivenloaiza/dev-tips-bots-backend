@@ -5,27 +5,27 @@
   4. The inject property is used to inject the configuration object into the useFactory function.
  */
 
-import { Global, Module } from '@nestjs/common';
-import { ConfigType } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
-import dbConfig from './db-config';
-
-@Global()
-@Module({
-  imports: [
-    MongooseModule.forRootAsync({
-      useFactory: (configService: ConfigType<typeof dbConfig>) => {
-        const { db, env } = configService;
-        const uriDb =
-          env === process.env.ENVIROMENT
-            ? `${db.connection}${db.host}/${db.name}`
-            : `${db.mongoHost}/${db.user}:${db.password}${db.cluster}/${db.name}?retryWrites=true&w=majority`;
-        return {
-          uri: uriDb,
-        };
-      },
-      inject: [dbConfig.KEY],
-    }),
-  ],
-})
-export class persistenceModule {}
+  import { Global, Module } from '@nestjs/common';
+  import { ConfigType } from '@nestjs/config';
+  import { MongooseModule } from '@nestjs/mongoose';
+  import dbConfig from './db-config';
+  
+  @Global()
+  @Module({
+    imports: [
+      MongooseModule.forRootAsync({
+        useFactory: (configService: ConfigType<typeof dbConfig>) => {
+          const { db, env } = configService;
+          const uriDb =
+            env === process.env.ENVIROMENT
+              ? `${db.connection}${db.host}/${db.name}`
+              : `${db.mongoHost}/${db.user}:${db.password}${db.cluster}/${db.name}?retryWrites=true&w=majority`;
+          return {
+            uri: uriDb,
+          };
+        },
+        inject: [dbConfig.KEY],
+      }),
+    ],
+  })
+  export class persistenceModule {}

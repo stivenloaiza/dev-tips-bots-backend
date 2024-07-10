@@ -2,6 +2,7 @@
 import { Client, GatewayIntentBits} from 'discord.js'; */
 /* import { SentTipsService } from './send-tip.service'; */
 
+
 /* @Injectable()
 export class DiscordService implements OnModuleInit {
   private readonly client: Client;
