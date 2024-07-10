@@ -1,7 +1,7 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { ChannelType, Client, GatewayIntentBits, TextChannel } from 'discord.js';
 import { SentTipsService } from './send-tip.service';
-import { Logs } from '../entities/discord-log-entity';
+/* import { Logs } from '../entities/discord-log-entity';*/
 import { CreateDiscordTipDto } from '../dto';
 
 
@@ -38,7 +38,7 @@ export class DiscordService implements OnModuleInit {
     try {
       const channel = this.client.channels.cache.get(channelId);
       let response
-      
+
       if (channel && channel.type === ChannelType.GuildText) {
         response = await (channel as TextChannel).send(this.formatTipMessage(CreateDiscordTipDto));
       } else {
