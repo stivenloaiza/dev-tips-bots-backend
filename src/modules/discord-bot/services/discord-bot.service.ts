@@ -49,7 +49,4 @@ export class DiscordService implements OnModuleInit {
       console.log(err);
     }
   }
-
-
-
 }
