@@ -30,7 +30,7 @@ export class CreateDiscordTipDto {
     @IsNotEmpty()
     language: string;
     
-    @IsInt()
+    @IsString()
     @IsNotEmpty()
-    channelId: number;
+    channelId: string;
 }

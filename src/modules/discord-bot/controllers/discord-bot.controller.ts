@@ -1,4 +1,4 @@
-import { Body, Controller, Get} from '@nestjs/common';
+import { Body, Controller, Get, Post} from '@nestjs/common';
 import { DiscordService } from '../services/discord-bot.service';
 import { CreateDiscordTipDto } from '../dto';
 
@@ -6,7 +6,7 @@ import { CreateDiscordTipDto } from '../dto';
 export class DiscordBotController {
   constructor(private readonly discordBotService: DiscordService) {}
   
-  @Get('tip')
+  @Post('tip')
   getTip(@Body() createDiscordTipDto: CreateDiscordTipDto){
     return this.discordBotService.getTip(createDiscordTipDto);
   }

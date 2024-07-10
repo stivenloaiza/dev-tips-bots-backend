@@ -1,7 +1,8 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { Client, GatewayIntentBits} from 'discord.js';
+import { ChannelType, Client, GatewayIntentBits, TextChannel } from 'discord.js';
 import { SentTipsService } from './send-tip.service';
 import { Logs } from '../entities/discord-log-entity';
+import { CreateDiscordTipDto } from '../dto';
 
 
 @Injectable()
@@ -22,7 +23,7 @@ export class DiscordService implements OnModuleInit {
     });
   }
 
-  formatTipMessage(tip: any): string {
+  formatTipMessage(tip: CreateDiscordTipDto): string {
     let message = `
       **📝Tip title:**\n ${tip.title}\n\n🧠 **Description:**\n ${tip.body}\n\n⚡ **Seniority:**\n ${tip.level}\n\n❓ **Lenguage:**\n ${tip.technology}`;
     if (tip.link) {
@@ -31,12 +32,24 @@ export class DiscordService implements OnModuleInit {
     return message;
   }
 
-  async getTip(CreateDiscordTipDto): Promise<Logs[]>{
-    try{
-      return CreateDiscordTipDto
-    }catch(err){
+  async getTip(CreateDiscordTipDto){
+    const { channelId } = CreateDiscordTipDto
+
+    try {
+      const channel = this.client.channels.cache.get(channelId);
+      let response
+      
+      if (channel && channel.type === ChannelType.GuildText) {
+        response = await (channel as TextChannel).send(this.formatTipMessage(CreateDiscordTipDto));
+      } else {
+        console.error(`Channel ${channelId} is not a text channel.`);
+      }
+      return response
+    } catch (err) {
       console.log(err);
     }
-    
   }
+
+
+
 }
