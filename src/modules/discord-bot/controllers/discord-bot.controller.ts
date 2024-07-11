@@ -1,14 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Post} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { DiscordService } from '../services/discord-bot.service';
 import { CreateDiscordTipDto } from '../dto';
 
 @Controller('discord-bot')
 export class DiscordBotController {
   constructor(private readonly discordBotService: DiscordService) {}
-  
+
   //Send the tip to the channel
   @Post('tip')
-  getTip(@Body() createDiscordTipDto: CreateDiscordTipDto){
+  getTip(@Body() createDiscordTipDto: CreateDiscordTipDto) {
     return this.discordBotService.getTip(createDiscordTipDto);
   }
 
@@ -17,7 +17,7 @@ export class DiscordBotController {
   async getAllTips() {
     return await this.discordBotService.getAllTips();
   }
-  
+
   // Get a tip by ID
   @Get(':id')
   async getTipById(@Param('id') id: string) {
