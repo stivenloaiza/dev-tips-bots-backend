@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { ChannelType, Client, GatewayIntentBits, TextChannel } from 'discord.js';
 import { SentTipsService } from './send-tip.service';
 import { Logs } from '../entities/discord-log-entity';
@@ -37,24 +37,31 @@ export class DiscordService implements OnModuleInit {
     return message;
   }
 
-  async getTip(CreateDiscordTipDto){
+  async getTip(CreateDiscordTipDto) {
     const { channelId } = CreateDiscordTipDto
 
     try {
       const channel = this.client.channels.cache.get(channelId);
       let response
 
-      if (channel && channel.type === ChannelType.GuildText) {
-        response = await (channel as TextChannel).send(this.formatTipMessage(CreateDiscordTipDto));
-
-        // Save to MongoDB
-        await this.saveTipToDatabase(CreateDiscordTipDto);
-      } else {
-        console.error(`Channel ${channelId} is not a text channel.`);
+      if (!channel || channel.type !== ChannelType.GuildText) {
+        throw new NotFoundException(`Channel ${channelId} is not a text channel or does not exist.`);
       }
+
+      const formattedMessage = this.formatTipMessage(CreateDiscordTipDto);
+      response = await (channel as TextChannel).send(formattedMessage);
+
+      if (!response) {
+        throw new InternalServerErrorException(`Failed to send tip to channel ${channelId}.`);
+      }
+
+      // Save to MongoDB
+      await this.saveTipToDatabase(CreateDiscordTipDto);
+
       return response
     } catch (err) {
       console.log(err);
+      throw new InternalServerErrorException('Failed to send tip. Please try again later.');
     }
   }
 
@@ -67,12 +74,12 @@ export class DiscordService implements OnModuleInit {
   }
 
 
-    // Method to get all tips
-    async getAllTips(): Promise<Logs[]> {
-      return this.logsModel.find().exec();
-    }
+  // Method to get all tips
+  async getAllTips(): Promise<Logs[]> {
+    return this.logsModel.find().exec();
+  }
 
-    // Method to get a tip by ID
+  // Method to get a tip by ID
   async getTipById(id: string): Promise<Logs> {
     const tip = await this.logsModel.findById(id).exec();
     if (!tip) {
