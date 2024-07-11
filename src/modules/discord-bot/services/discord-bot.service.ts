@@ -96,6 +96,8 @@ export class DiscordService implements OnModuleInit {
   // Method to get a tip by ID
   async getTipById(id: string): Promise<Logs> {
     const tip = await this.logsModel.findById(id).exec();
+    console.log(tip);
+    
     if (!tip) {
       throw new NotFoundException(`Tip with ID ${id} not found`);
     }

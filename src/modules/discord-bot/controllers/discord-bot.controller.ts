@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post } from '@nestjs/common';
 import { DiscordService } from '../services/discord-bot.service';
 import { CreateDiscordTipDto } from '../dto';
 
@@ -6,28 +6,29 @@ import { CreateDiscordTipDto } from '../dto';
 export class DiscordBotController {
   constructor(private readonly discordBotService: DiscordService) {}
 
-  //Send the tip to the channel
   @Post('tip')
-  getTip(@Body() createDiscordTipDto: CreateDiscordTipDto) {
-    return this.discordBotService.getTip(createDiscordTipDto);
+  async getTip(@Body() createDiscordTipDto: CreateDiscordTipDto) {
+    
+    await this.discordBotService.getTip(createDiscordTipDto);
+    return { statusCode: HttpStatus.CREATED, message: 'Tip sent successfully' };
   }
 
-  //Find all the tips in the database
   @Get('all/tips')
   async getAllTips() {
-    return await this.discordBotService.getAllTips();
+    const tips = await this.discordBotService.getAllTips();
+    return { statusCode: HttpStatus.OK, tips };
   }
 
-  // Get a tip by ID
   @Get(':id')
   async getTipById(@Param('id') id: string) {
-    return await this.discordBotService.getTipById(id);
+    const tip = await this.discordBotService.getTipById(id);
+    console.log(tip);
+    return { statusCode: HttpStatus.OK, tip };
   }
 
-  // Delete a tip by ID
   @Delete('delete/:id')
   async deleteTipById(@Param('id') id: string) {
     await this.discordBotService.deleteTipById(id);
-    return { message: `Tip with ID ${id} deleted successfully` };
+    return { statusCode: HttpStatus.OK, message: `Tip with ID ${id} deleted successfully` };
   }
 }

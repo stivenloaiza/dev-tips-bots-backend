@@ -3,9 +3,6 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 @Schema()
 export class Logs {
   @Prop()
-  id: number;
-
-  @Prop()
   title: string;
 
   @Prop()
@@ -27,7 +24,7 @@ export class Logs {
   channelId: number;
 
   @Prop()
-  createddAt: Date;
+  createdAt: Date;
 }
 
 export const logSchema = SchemaFactory.createForClass(Logs);

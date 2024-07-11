@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, IsUrl } from 'class-validator';
 
 export class CreateDiscordTipDto {
   @IsString()
@@ -9,7 +9,7 @@ export class CreateDiscordTipDto {
   @IsNotEmpty()
   body: string;
 
-  @IsString()
+  @IsUrl()
   @IsNotEmpty()
   link: string;
 
@@ -25,7 +25,7 @@ export class CreateDiscordTipDto {
   @IsNotEmpty()
   language: string;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  channelId: string;
+  channelId: number;
 }
