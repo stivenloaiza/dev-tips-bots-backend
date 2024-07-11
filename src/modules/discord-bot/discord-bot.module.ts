@@ -10,6 +10,6 @@ import { SentTipsService } from './services/send-tip.service';
     MongooseModule.forFeature([{ name: Logs.name, schema: logSchema }]),
   ],
   controllers: [DiscordBotController],
-  providers: [DiscordService,SentTipsService],
+  providers: [DiscordService, SentTipsService],
 })
 export class DiscordBotModule {}
