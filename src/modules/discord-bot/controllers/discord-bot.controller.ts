@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { DiscordService } from '../services/discord-bot.service';
 import { CreateDiscordTipDto } from '../dto';
 
@@ -8,7 +16,6 @@ export class DiscordBotController {
 
   @Post('tip')
   async getTip(@Body() createDiscordTipDto: CreateDiscordTipDto) {
-    
     await this.discordBotService.getTip(createDiscordTipDto);
     return { statusCode: HttpStatus.CREATED, message: 'Tip sent successfully' };
   }
@@ -29,6 +36,9 @@ export class DiscordBotController {
   @Delete('delete/:id')
   async deleteTipById(@Param('id') id: string) {
     await this.discordBotService.deleteTipById(id);
-    return { statusCode: HttpStatus.OK, message: `Tip with ID ${id} deleted successfully` };
+    return {
+      statusCode: HttpStatus.OK,
+      message: `Tip with ID ${id} deleted successfully`,
+    };
   }
 }
