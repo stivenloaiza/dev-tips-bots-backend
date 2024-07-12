@@ -22,7 +22,7 @@ export class TipDto {
   @IsNotEmpty()
   link: string;
 
-  @ApiProperty() 
+  @ApiProperty()
   @IsString()
   @IsNotEmpty()
   level: string;
@@ -36,7 +36,7 @@ export class TipDto {
   @IsString()
   @IsNotEmpty()
   technology: string;
-  
+
   @ApiProperty()
   @IsString()
   @IsNotEmpty()

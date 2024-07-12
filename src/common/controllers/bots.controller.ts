@@ -1,62 +1,43 @@
 import {
   Body,
   Controller,
-  Delete,
+  /*   Delete,
   Get,
   HttpStatus,
-  Param,
+  Param, */
   Post,
   UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { DiscordService } from '../../modules/discord-bot/services/discord-bot.service';
-import { TipDto } from '../dtos/tipDto'; 
+import { TipDto } from '../dtos/tipDto';
 import { ApiKeyGuard } from 'src/common/guards/api-key.guard';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+/* import { ApiOperation, ApiResponse } from '@nestjs/swagger'; */
+/* import { telegramBotService } from 'src/modules/telegram-bot/services/telegram-bot.service'; */
+import { DiscordService } from 'src/modules/discord-bot/services/discord-bot.service';
 
-@Controller('discord-bot')
+@Controller('bots')
 export class BotController {
-  constructor(private readonly discordBotService: DiscordService) {}
+  constructor(
+    private readonly discordBotService: DiscordService,
+    /* private readonly telegramBotService: telegramBotService, */ // Inject Telegram service
+  ) {}
 
-  @Post('bots')
+  @Post('tip')
   @UsePipes(new ValidationPipe())
   @UseGuards(ApiKeyGuard)
-  getTip(@Body() tipDto: TipDto) {
-    return this.discordBotService.getTip(tipDto);
-  }
+  async getTip(@Body() tipDto: TipDto) {
+    let response;
 
-  @Get('all/tips')
-  @ApiOperation({ summary: 'Find all the tips of the system.', description: 'View all tips registered in the system.' })
-  @ApiResponse({status: 200, description: 'All tips were found successfully.'})
-  @ApiResponse({status: 404, description: 'No tips were found in the system.'})
-  @ApiResponse({status: 500,description: 'An internal server error occurred while searching for the tips.'})
-  async getAllTips() {
-    const tips = await this.discordBotService.getAllTips();
-    return { statusCode: HttpStatus.OK, tips };
-  }
+    if (tipDto.channel === 'discord') {
+      response = await this.discordBotService.getTip(tipDto);
+    } else if (tipDto.channel === 'telegram') {
+      /* response = await this.telegramBotService.getTip(tipDto); */
+    } else {
+      throw new Error('Unsupported channel');
+    }
 
-  @Get(':id')
-  @ApiOperation({ summary: 'Find the tip by ID of the system.', description: 'View a specific tip registered in the database.' })
-  @ApiResponse({status: 200, description: 'Tip found successfully.',})
-  @ApiResponse({status: 404, description: 'Tip with the entered ID not found.'})
-  @ApiResponse({status: 500, description: 'An internal server error occurred while searching for the tip.'})
-  async getTipById(@Param('id') id: string) {
-    const tip = await this.discordBotService.getTipById(id);
-    console.log(tip);
-    return { statusCode: HttpStatus.OK, tip };
+    return response;
   }
-
-  @Delete('delete/:id')
-  @ApiOperation({ summary: 'Delete a tip to the system.', description: 'Delete a tip of the system.' })
-  @ApiResponse({status: 200, description: 'Tip deleted successfully.'})
-  @ApiResponse({status: 404, description: 'Tip with the entered ID not found.'})
-  @ApiResponse({status: 500, description: 'An internal server error occurred while deleting the tip.'})
-  async deleteTipById(@Param('id') id: string) {
-    await this.discordBotService.deleteTipById(id);
-    return {
-      statusCode: HttpStatus.OK,
-      message: `Tip with ID ${id} deleted successfully`,
-    };
-  }
+  
 }

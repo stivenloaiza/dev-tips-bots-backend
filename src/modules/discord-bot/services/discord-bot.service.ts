@@ -10,20 +10,16 @@ import {
   GatewayIntentBits,
   TextChannel,
 } from 'discord.js';
-import { SentTipsService } from './send-tip.service';
 import { Logs } from '../entities/discord-log-entity';
-import { CreateDiscordTipDto } from '../dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { TipDto } from 'src/common/dtos/tipDto';
 
 @Injectable()
 export class DiscordService implements OnModuleInit {
   private readonly client: Client;
 
-  constructor(
-    private readonly sentTipsService: SentTipsService,
-    @InjectModel(Logs.name) private logsModel: Model<Logs>,
-  ) {
+  constructor(@InjectModel(Logs.name) private logsModel: Model<Logs>) {
     this.client = new Client({
       intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
     });
@@ -36,7 +32,7 @@ export class DiscordService implements OnModuleInit {
     });
   }
 
-  formatTipMessage(tip: CreateDiscordTipDto): string {
+  formatTipMessage(tip: TipDto): string {
     let message = `
       **📝Tip title:**\n ${tip.title}\n\n🧠 **Description:**\n ${tip.body}\n\n⚡ **Seniority:**\n ${tip.level}\n\n❓ **Lenguage:**\n ${tip.technology}`;
     if (tip.link) {
@@ -78,9 +74,7 @@ export class DiscordService implements OnModuleInit {
     }
   }
 
-  async saveTipToDatabase(
-    createDiscordTip: CreateDiscordTipDto,
-  ): Promise<Logs> {
+  async saveTipToDatabase(createDiscordTip: TipDto): Promise<Logs> {
     const createdTip = new this.logsModel({
       ...createDiscordTip,
       createdAt: new Date(),
