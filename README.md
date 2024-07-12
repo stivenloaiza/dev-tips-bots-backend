@@ -111,7 +111,7 @@ The bot consumes an API that contains programming tips and automatically sends t
 
 ## URL to Install the Bot in the Discord Channel
 
-[Install Bot](https://discord.com/oauth2/authorize?client_id=1256684001209487511&scope=bot&permissions=8)
+[Install Bot](https://discord.com/oauth2/authorize?client_id=1256684001209487511&permissions=8&integration_type=0&scope=bot)
 
 
 ## Contribution
