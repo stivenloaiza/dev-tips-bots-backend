@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post, UseGuards } from '@nestjs/common';
 import { DiscordService } from '../services/discord-bot.service';
 import { CreateDiscordTipDto } from '../dto';
 import { ApiKeyGuard } from 'src/common/guards/api-key.guard';
