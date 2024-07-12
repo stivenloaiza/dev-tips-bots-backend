@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { ServicesService } from './services/services.service';
+import { BotService } from './services/services.service';
 
 @Module({
   imports: [],
-  providers: [ServicesService]
+  providers: [BotService],
 })
 export class TelegramBotModule {}
