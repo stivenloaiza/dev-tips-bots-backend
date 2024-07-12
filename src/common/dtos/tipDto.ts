@@ -1,7 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, IsUrl } from 'class-validator';
+import { IsString, IsUrl, IsOptional, IsNotEmpty } from 'class-validator';
 
-export class CreateDiscordTipDto {
+export class TipDto {
+  @ApiProperty()
+  @IsUrl()
+  @IsOptional()
+  multimedia_url?: string;
+
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
@@ -17,7 +22,7 @@ export class CreateDiscordTipDto {
   @IsNotEmpty()
   link: string;
 
-  @ApiProperty()
+  @ApiProperty() 
   @IsString()
   @IsNotEmpty()
   level: string;
@@ -25,15 +30,25 @@ export class CreateDiscordTipDto {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  technology: string;
+  lang: string;
 
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  language: string;
+  technology: string;
+  
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  subtechnology: string;
 
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
   channelId: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  channel: string;
 }

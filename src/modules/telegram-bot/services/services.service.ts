@@ -2,7 +2,7 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import TelegramBot from 'node-telegram-bot-api';
 import axios from 'axios';
-import { TipDto } from '../dto/telegram.dto';
+import { TipDto } from '../../../common/dtos/tipDto';
 
 @Injectable()
 export class BotService implements OnModuleInit {

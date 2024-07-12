@@ -10,20 +10,20 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { DiscordService } from '../services/discord-bot.service';
-import { CreateDiscordTipDto } from '../dto';
+import { DiscordService } from '../../modules/discord-bot/services/discord-bot.service';
+import { TipDto } from '../dtos/tipDto'; 
 import { ApiKeyGuard } from 'src/common/guards/api-key.guard';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Controller('discord-bot')
-export class DiscordBotController {
+export class BotController {
   constructor(private readonly discordBotService: DiscordService) {}
 
-  @Post('tip')
+  @Post('bots')
   @UsePipes(new ValidationPipe())
   @UseGuards(ApiKeyGuard)
-  getTip(@Body() createDiscordTipDto: CreateDiscordTipDto) {
-    return this.discordBotService.getTip(createDiscordTipDto);
+  getTip(@Body() tipDto: TipDto) {
+    return this.discordBotService.getTip(tipDto);
   }
 
   @Get('all/tips')
