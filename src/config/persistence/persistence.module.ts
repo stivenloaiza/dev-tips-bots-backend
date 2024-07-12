@@ -19,7 +19,7 @@ import dbConfig from './db-config';
         const uriDb =
           env === process.env.ENVIROMENT
             ? `${db.connection}${db.host}/${db.name}`
-            : `${db.mongoHost}/${db.user}:${db.password}${db.cluster}/${db.name}?retryWrites=true&w=majority`;
+            : `${db.mongoHost}/${db.user}:${db.password}${db.cluster}${db.name}?retryWrites=true&w=majority`;
         return {
           uri: uriDb,
         };
