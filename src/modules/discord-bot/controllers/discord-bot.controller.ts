@@ -1,4 +1,15 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Param,
+  Post,
+  UseGuards,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { DiscordService } from '../services/discord-bot.service';
 import { CreateDiscordTipDto } from '../dto';
 import { ApiKeyGuard } from 'src/common/guards/api-key.guard';
@@ -8,6 +19,7 @@ export class DiscordBotController {
   constructor(private readonly discordBotService: DiscordService) {}
 
   @Post('tip')
+  @UsePipes(new ValidationPipe())
   @UseGuards(ApiKeyGuard)
   getTip(@Body() createDiscordTipDto: CreateDiscordTipDto) {
     return this.discordBotService.getTip(createDiscordTipDto);
