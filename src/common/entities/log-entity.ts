@@ -24,6 +24,9 @@ export class Logs {
   channelId: number;
 
   @Prop()
+  channel: string;
+
+  @Prop()
   createdAt: Date;
 }
 
