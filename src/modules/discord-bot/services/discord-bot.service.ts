@@ -10,11 +10,10 @@ import {
   GatewayIntentBits,
   TextChannel,
 } from 'discord.js';
-import { Logs } from '../../../common/entities/log-entity';
+import { Logs } from '../entities/discord-log-entity';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { TipDto } from 'src/common/dtos/tipDto';
-import { messages } from '../../../common/messages/messagesLang';
 
 @Injectable()
 export class DiscordService implements OnModuleInit {
@@ -34,14 +33,13 @@ export class DiscordService implements OnModuleInit {
   }
 
   formatTipMessage(tip: TipDto): string {
-    if (tip.lang.toLowerCase() === 'spanish' || tip.lang.toLowerCase() === 'español') {
-      return messages.spanish(tip);
-    } else if (tip.lang.toLowerCase() === 'english' || tip.lang.toLowerCase() === 'inglés' || tip.lang.toLowerCase() === 'ingles') {
-      return messages.english(tip);
-    } else {
-      return messages.unsupported(tip);
+    let message = `
+      **📝Tip title:**\n ${tip.title}\n\n🧠 **Description:**\n ${tip.body}\n\n⚡ **Seniority:**\n ${tip.level}\n\n❓ **Lenguage:**\n ${tip.technology}`;
+    if (tip.link) {
+      message += `\n\n📚 **Resource:** \n Checkout more info in this [website](${tip.link})!`;
     }
-  }  
+    return message;
+  }
 
   async getTip(CreateDiscordTipDto) {
     const { channelId } = CreateDiscordTipDto;

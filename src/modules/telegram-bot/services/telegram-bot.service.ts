@@ -1,59 +1,78 @@
-import { Injectable, OnModuleInit, InternalServerErrorException } from '@nestjs/common';
+/* import { Injectable, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import TelegramBot from 'node-telegram-bot-api';
 import axios from 'axios';
 import { TipDto } from '../../../common/dtos/tipDto';
-import { messages } from '../../../common/messages/messagesLang';
-import { Logs } from '../../../common/entities/log-entity';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
 
 @Injectable()
-export class TelegramBotService implements OnModuleInit {
+export class telegramBotService implements OnModuleInit {
   private bot: TelegramBot;
+  private chatId: string;
   private cronJobsUrl: string;
 
-  constructor(
-    private configService: ConfigService,
-    @InjectModel(Logs.name) private logsModel: Model<Logs>,) {
-    this.cronJobsUrl = this.configService.get<string>('CRON_JOBS_URL');
+  constructor(private configService: ConfigService) {
+    this.chatId = this.configService.get<string>('TELEGRAM_CHAT_ID'); // CAMBIAR ESTO, TERMINAR DE PROBAR
+    this.cronJobsUrl = this.configService.get<string>('CRON_JOBS_URL'); // CAMBIAR ESTO, TERMINAR DE PROBAR
   }
 
   onModuleInit() {
-    const token = this.configService.get<string>('TELEGRAM_BOT_TOKEN');
+    const token = this.configService.get<string>('TELEGRAM_BOT_TOKEN'); // CAMBIAR ESTO
     this.bot = new TelegramBot(token, { polling: true });
+    this.pollForTips();
   }
 
   private formatTipMessage(tip: TipDto): string {
-    if (tip.lang.toLowerCase() === 'spanish' || tip.lang.toLowerCase() === 'español') {
-      return messages.spanish(tip);
-    } else if (tip.lang.toLowerCase() === 'english' || tip.lang.toLowerCase() === 'inglés' || tip.lang.toLowerCase() === 'ingles') {
-      return messages.english(tip);
-    } else {
-      return messages.unsupported(tip);
+    let message = `
+            <b>💡 ${tip.title}</b>
+
+            ${tip.body}
+
+            🔗 <a href="${tip.link}">Learn more</a>
+
+            🏷️ <b>Level:</b> ${tip.level}
+            🌐 <b>Language:</b> ${tip.lang}
+            🔧 <b>Technology:</b> ${tip.technology}
+            🔍 <b>Subtechnology:</b> ${tip.subtechnology}
+            `;
+
+    if (tip.multimedia_url) {
+      message += `\n\n<img src="${tip.multimedia_url}" />`;
+    }
+
+    return message;
+  }
+
+  private async fetchTip(): Promise<TipDto> {
+    try {
+      const response = await axios.get<TipDto>(this.cronJobsUrl);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching tip from cron jobs API', error);
+      throw new Error('Error fetching tip. Please try again later.');
     }
   }
-  async saveTipToDatabase(tipDto: TipDto): Promise<Logs> {
-    const createdTip = new this.logsModel({
-      ...tipDto,
-      createdAt: new Date(),
-    });
-    return createdTip.save();
-  }
 
-  async getTip(tipDto: TipDto): Promise<void> {
+  private async sendTip() {
     try {
-      const response = await axios.get<TipDto>(`${this.cronJobsUrl}/channel/${tipDto.channelId}`);
-      const tip = response.data;
-
+      const tip = await this.fetchTip();
       const message = this.formatTipMessage(tip);
-      await this.bot.sendMessage(tipDto.channelId, message, { parse_mode: 'HTML' });
-
-      await this.saveTipToDatabase(tip);
+      await this.bot.sendMessage(this.chatId, message, { parse_mode: 'HTML' });
     } catch (error) {
       console.error('Error sending tip to Telegram', error);
-      throw new InternalServerErrorException('Failed to send tip. Please try again later.');
     }
   }
 
+  private async pollForTips() {
+    while (true) {
+      try {
+        await this.sendTip();
+        // Asumiendo que los cron jobs gestionarán el tiempo, podemos esperar un intervalo fijo o un evento.
+        await new Promise((resolve) => setTimeout(resolve, 60 * 60 * 1000)); // Sondeo cada hora como alternativa
+      } catch (error) {
+        console.error('Error during polling for tips', error);
+        await new Promise((resolve) => setTimeout(resolve, 60 * 1000)); // Reintentar después de un minuto en caso de error
+      }
+    }
+  }
 }
+ */
