@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { DiscordBotModule } from './modules/discord-bot/discord-bot.module';
 import dbConfig from './config/persistence/db-config';
 import { TelegramBotModule } from './modules/telegram-bot/telegram-bot.module';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { TelegramBotModule } from './modules/telegram-bot/telegram-bot.module';
     persistenceModule,
     DiscordBotModule,
     TelegramBotModule,
+    HttpModule
   ],
   controllers: [],
   providers: [],
