@@ -4,29 +4,33 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
+import { lastValueFrom } from 'rxjs';
+import { HttpService } from '@nestjs/axios';
+
 
 @Injectable()
 export class ApiKeyGuard implements CanActivate {
+  constructor(private readonly httpService: HttpService) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const apiKey = request.headers['api-key'];
+    const apiKey = request.headers['apikey'];
 
     if (!apiKey) {
       throw new UnauthorizedException('API key is missing');
     }
 
-    return true;
+    try {
+      const response = await lastValueFrom(
+        this.httpService.post(process.env.AUTH_URL, { apiKey })
+      );
 
-    // try {
-    //   const response = await axios.post('URL_DEL_MICROSERVICIO', { apiKey });
-
-    //   if (response.data.status === 'OK') {
-
-    //   } else {
-    //     throw new UnauthorizedException('Invalid API key');
-    //   }
-    // } catch (error) {
-    //   throw new UnauthorizedException('Error validating API key');
-    // }
+      if (response) {
+        return true;
+      } else {
+        throw new UnauthorizedException('Invalid API key format');
+      }
+    } catch (error) {
+      throw new UnauthorizedException('Error validating API key');
+    }
   }
 }
