@@ -1,5 +1,5 @@
 export const messages = {
-    spanish: (tip) => `
+  spanish: (tip) => `
       <b>💡 Título del Tip:</b> ${tip.title}\n\n
       <b>🧠 Descripción:</b> ${tip.body}\n\n
       <b>🏷️ Nivel:</b> ${tip.level}\n
@@ -9,7 +9,7 @@ export const messages = {
       ${tip.link ? `\n\n<b>📚 Recurso:</b> <a href="${tip.link}">¡Consulta más información aquí!</a>` : ''}
       ${tip.multimedia_url ? `\n\n<img src="${tip.multimedia_url}" />` : ''}
     `,
-    english: (tip) => `
+  english: (tip) => `
       <b>💡 Tip Title:</b> ${tip.title}\n\n
       <b>🧠 Description:</b> ${tip.body}\n\n
       <b>🏷️ Level:</b> ${tip.level}\n
@@ -19,9 +19,9 @@ export const messages = {
       ${tip.link ? `\n\n<b>📚 Resource:</b> <a href="${tip.link}">Check out more info here!</a>` : ''}
       ${tip.multimedia_url ? `\n\n<img src="${tip.multimedia_url}" />` : ''}
     `,
-    unsupported: (tip) => `
+  unsupported: (tip) => `
       <b>Sorry, we have no tips available in the requested language. 😢</b>\n\n
       <b>Here is the tip in English:</b>\n\n
       ${messages.english(tip)}
     `,
-  };
+};

@@ -1,4 +1,12 @@
-import { Body, Controller, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpStatus,
+  Post,
+  UseGuards,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { TipDto } from '../dtos/tipDto';
 import { ApiKeyGuard } from 'src/common/guards/api-key.guard';
 import { DiscordService } from 'src/modules/discord-bot/services/discord-bot.service';
@@ -15,16 +23,17 @@ export class BotController {
   @UsePipes(new ValidationPipe())
   @UseGuards(ApiKeyGuard)
   async getTip(@Body() tipDto: TipDto) {
-    let response;
-
-    if (tipDto.channel === 'discord') {
-      response = await this.discordBotService.getTip(tipDto);
-    } else if (tipDto.channel === 'telegram') {
-      response = await this.telegramBotService.getTip(tipDto);
+    if (tipDto.channel.toLowerCase() === 'discord') {
+      await this.discordBotService.getTip(tipDto);
+    } else if (tipDto.channel.toLowerCase() === 'telegram') {
+      await this.telegramBotService.getTip(tipDto);
     } else {
       throw new Error('Unsupported channel');
     }
 
-    return response;
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Tip sent successfully!',
+    };
   }
 }

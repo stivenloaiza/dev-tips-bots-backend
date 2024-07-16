@@ -14,7 +14,7 @@ import { Logs } from '../../../common/entities/log-entity';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { TipDto } from 'src/common/dtos/tipDto';
-import { messages } from '../../../common/messages/messagesLang';
+import { messages } from '../../../common/messages/messagesLangDiscord';
 
 @Injectable()
 export class DiscordService implements OnModuleInit {
@@ -34,14 +34,21 @@ export class DiscordService implements OnModuleInit {
   }
 
   formatTipMessage(tip: TipDto): string {
-    if (tip.lang.toLowerCase() === 'spanish' || tip.lang.toLowerCase() === 'español') {
+    if (
+      tip.lang.toLowerCase() === 'spanish' ||
+      tip.lang.toLowerCase() === 'español'
+    ) {
       return messages.spanish(tip);
-    } else if (tip.lang.toLowerCase() === 'english' || tip.lang.toLowerCase() === 'inglés' || tip.lang.toLowerCase() === 'ingles') {
+    } else if (
+      tip.lang.toLowerCase() === 'english' ||
+      tip.lang.toLowerCase() === 'inglés' ||
+      tip.lang.toLowerCase() === 'ingles'
+    ) {
       return messages.english(tip);
     } else {
       return messages.unsupported(tip);
     }
-  }  
+  }
 
   async getTip(CreateDiscordTipDto) {
     const { channelId } = CreateDiscordTipDto;
