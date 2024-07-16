@@ -15,10 +15,9 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('BOT Tips')
-    .setDescription(
-      `API for the bot that sends tips to Discord channels according to user preferences.`,
-    )
+    .setDescription(`API for the bot that sends tips to Discord channels according to user preferences.`,)
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
