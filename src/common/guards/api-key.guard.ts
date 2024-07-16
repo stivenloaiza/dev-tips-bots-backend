@@ -20,7 +20,7 @@ export class ApiKeyGuard implements CanActivate {
 
     try {
       const response = await lastValueFrom(
-        this.httpService.post(process.env.AUTH_URL, { apiKey }),
+        this.httpService.post(process.env.AUTH_URL, { key: apiKey }),
       );
 
       if (response) {
