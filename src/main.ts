@@ -14,11 +14,13 @@ async function bootstrap() {
   );
 
   const config = new DocumentBuilder()
-    .setTitle('BOT Tips')
-    .setDescription(`API for the bot that sends tips to Discord channels according to user preferences.`,)
-    .setVersion('1.0')
-    .addBearerAuth()
-    .build();
+  .setTitle('BOT Tips | Telegram - Discord')
+  .setDescription(
+    'is an API designed to manage and send programming language news tips to a specific Discord or Telegram channel. This API allows users to send programming tips, which are automatically sent to a Discord or Telegram channel according to the frequency specified at the time of user registration.,',
+  )
+  .setVersion('1.0')
+  .addBearerAuth()
+  .build();
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-doc', app, document);

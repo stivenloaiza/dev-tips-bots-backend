@@ -107,11 +107,4 @@ export class DiscordService implements OnModuleInit {
     return tip;
   }
 
-  // Method to delete a tip by ID
-  async deleteTipById(id: string): Promise<void> {
-    const result = await this.logsModel.deleteOne({ _id: id }).exec();
-    if (result.deletedCount === 0) {
-      throw new NotFoundException(`Tip with ID ${id} not found`);
-    }
-  }
 }
