@@ -26,37 +26,98 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Installation
+# Bot Tips
 
-```bash
-$ npm install
-```
+## Discord Bot Tips
+This project is a Discord bot developed with NestJS, designed to send information about current programming language updates (tips) to a specific Discord channel. The tips include a title, description, documentation link, language, and developer level (junior or senior).
 
-## Running the app
+## Description
 
-```bash
-# development
-$ npm run start
+The bot consumes an API that contains programming tips and automatically sends them to a Discord channel based on the frequency specified by the user (daily, weekly, or monthly). Additionally, it saves the sent tips in a MongoDB database to avoid sending the same tip multiple times.
 
-# watch mode
-$ npm run start:dev
+## Technologies Used
 
-# production mode
-$ npm run start:prod
-```
+- **NestJS**: Framework for creating server-side applications.
+- **Discord.js**: Library for interacting with the Discord API.
+- **MongoDB**: NoSQL database used to store sent tips.
+- **Mongoose**: Data modeling library for MongoDB and Node.js.
+- **Swagger**: Tool for API documentation.
 
-## Test
+## Dependencies
 
-```bash
-# unit tests
-$ npm run test
+- `@nestjs/common`
+- `@nestjs/core`
+- `@nestjs/mongoose`
+- `@nestjs/swagger`
+- `class-validator`
+- `discord.js`
+- `mongoose`
 
-# e2e tests
-$ npm run test:e2e
+## Project Setup
 
-# test coverage
-$ npm run test:cov
-```
+### Step by Step
+
+1. **Clone the Repository**
+    ```bash
+    git clone https://github.com/your-username/discord-bot-tips.git
+    cd discord-bot-tips
+    ```
+
+2. **Install Dependencies**
+    ```bash
+    npm install
+    ```
+
+3. **Configure Environment Variables**
+    Create a `.env` file at the root of the project with the following properties:
+    ```env
+    # Database configuration for localhost Server
+    
+    DB_CONNECTION= mongodb://
+    DB_HOST= localhost:27017
+    MONGO_HOST= mongodb+srv://
+    DB_NAME= name-database
+    DB_USER= user-database
+    DB_CLUSTER= cluster-database
+    DB_PASSWORD= password-database
+    ENVIRONMENT= production
+
+    BOT_TOKEN= token-bot-discord
+    ```
+
+4. **Start the Project**
+    ```bash
+    npm run start
+    ```
+
+5. **Access Swagger Documentation**
+    - URL: `http://localhost:3000/api-doc`
+
+6. **Endpoint to Send a Tip**
+    - URL: `http://localhost:3000/discord-bot/tip`
+    - Method: `POST`
+    - JSON Format:
+      ```json
+      {
+          "title": "",
+          "body": "",
+          "link": "https://www.google.com",
+          "level": "Mid",
+          "language": "",
+          "technology": "",
+          "channelId": ""
+      }
+      ```
+
+## URL to Install the Bot in the Discord Channel
+
+[Install Bot](https://discord.com/oauth2/authorize?client_id=1256684001209487511&permissions=8&integration_type=0&scope=bot)
+
+
+## Contribution
+
+If you want to contribute to this project, please open an issue or submit a pull request with your improvements.
+
 
 ## Support
 
