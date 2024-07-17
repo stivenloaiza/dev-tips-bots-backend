@@ -28,10 +28,9 @@
 
 # Bot Tips
 
-## Discord Bot Tips
-This project is a Discord bot developed with NestJS, designed to send information about current programming language updates (tips) to a specific Discord channel. The tips include a title, description, documentation link, language, and developer level (junior or senior).
-
 ## Description
+
+This project is a Discord and Telegram bot developed with NestJS, designed to send information about current programming language updates (tips) to a specific Discord channel. The tips include a title, description, documentation link, language, and developer level (junior or senior).
 
 The bot consumes an API that contains programming tips and automatically sends them to a Discord channel based on the frequency specified by the user (daily, weekly, or monthly). Additionally, it saves the sent tips in a MongoDB database to avoid sending the same tip multiple times.
 
@@ -39,6 +38,7 @@ The bot consumes an API that contains programming tips and automatically sends t
 
 - **NestJS**: Framework for creating server-side applications.
 - **Discord.js**: Library for interacting with the Discord API.
+- **Node-Telegram-Bot-API**: Library for interacting with the Telegram API.
 - **MongoDB**: NoSQL database used to store sent tips.
 - **Mongoose**: Data modeling library for MongoDB and Node.js.
 - **Swagger**: Tool for API documentation.
@@ -73,16 +73,19 @@ The bot consumes an API that contains programming tips and automatically sends t
     ```env
     # Database configuration for localhost Server
     
-    DB_CONNECTION= mongodb://
-    DB_HOST= localhost:27017
-    MONGO_HOST= mongodb+srv://
-    DB_NAME= name-database
-    DB_USER= user-database
-    DB_CLUSTER= cluster-database
-    DB_PASSWORD= password-database
-    ENVIRONMENT= production
+    DB_CONNECTION = mongodb://
+    DB_HOST = localhost:27017
+    MONGO_HOST = mongodb+srv:/
+    DB_NAME = db_name
+    DB_USER = db_user
+    DB_CLUSTER = @cluster-name
+    DB_PASSWORD = db-password
+    ENVIROMENT = 'production'
 
-    BOT_TOKEN= token-bot-discord
+    AUTH_URL = 
+    BOT_APIKEY = 
+    BOT_TOKEN = 
+    TELEGRAM_BOT_TOKEN = 
     ```
 
 4. **Start the Project**
@@ -98,15 +101,19 @@ The bot consumes an API that contains programming tips and automatically sends t
     - Method: `POST`
     - JSON Format:
       ```json
-      {
-          "title": "",
-          "body": "",
-          "link": "https://www.google.com",
-          "level": "Mid",
-          "language": "",
-          "technology": "",
-          "channelId": ""
-      }
+      "Example:" 
+        {
+          "multimedia_url": "http://example.com/image.png",
+          "title": "How to use Docker",
+          "body": "Here is a quick tip on using Docker effectively...",
+          "link": "http://example.com/docker-guide",
+          "level": "Junior",
+          "lang": "English",
+          "technology": "Docker",
+          "subtechnology": "Docker Compose",
+          "channelId": "123456789",
+          "channel": "discord"
+        }
       ```
 
 ## URL to Install the Bot in the Discord Channel
