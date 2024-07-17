@@ -51,15 +51,21 @@ The bot consumes an API that contains programming tips and automatically sends t
 - `@nestjs/swagger`
 - `class-validator`
 - `discord.js`
+- `Node-Telegram-Bot-API`
 - `mongoose`
 
 ## Project Setup
+
+### Requirements:
+- **NodeJs** (v14 or higher).
+- **MongoDB:** Version 4.4 or higher.
+- **npm** (v6 or higher).
 
 ### Step by Step
 
 1. **Clone the Repository**
     ```bash
-    git clone https://github.com/your-username/discord-bot-tips.git
+    git clone https://github.com/stivenloaiza/dev-tips-bots-backend.git
     cd discord-bot-tips
     ```
 
@@ -118,8 +124,7 @@ The bot consumes an API that contains programming tips and automatically sends t
 
 ## URL to Install the Bot in the Discord Channel
 
-[Install Bot](https://discord.com/oauth2/authorize?client_id=1256684001209487511&permissions=8&integration_type=0&scope=bot)
-
+Click here to [install Bot](https://discord.com/oauth2/authorize?client_id=1256684001209487511&permissions=8&integration_type=0&scope=bot), and select channel.
 
 ## Contribution
 
