@@ -1,7 +1,10 @@
 import {
   Body,
   Controller,
+  Get,
   HttpStatus,
+  NotFoundException,
+  Param,
   Post,
   UseGuards,
   UsePipes,
@@ -14,6 +17,7 @@ import {
   ApiNotFoundResponse, 
   ApiOkResponse, 
   ApiOperation, 
+  ApiParam, 
   ApiTags, 
   ApiUnauthorizedResponse 
 } from '@nestjs/swagger';
@@ -21,8 +25,9 @@ import { TipDto } from '../dtos/tipDto';
 import { ApiKeyGuard } from 'src/common/guards/api-key.guard';
 import { DiscordService } from 'src/modules/discord-bot/services/discord-bot.service';
 import { TelegramBotService } from 'src/modules/telegram-bot/services/telegram-bot.service';
+import { Logs } from '../entities/log-entity';
 
-@ApiTags('bots')
+@ApiTags('Bots')
 @Controller('bots')
 export class BotController {
   constructor(
@@ -53,5 +58,28 @@ export class BotController {
       statusCode: HttpStatus.OK,
       message: 'Tip sent successfully!',
     };
+  }
+
+  @Get("/all")
+  @ApiOperation({ summary: 'Get all tips' })
+  @ApiOkResponse({ description: 'List of all tips'})
+  @ApiInternalServerErrorResponse({ description: 'Server error' })
+  @ApiNotFoundResponse({ description: 'Tip not found' })
+  async getAllTips(): Promise<Logs[]> {
+    return this.discordBotService.getAllTips();
+  }
+
+  @Get('search/:id')
+  @ApiOperation({ summary: 'Get a tip by ID' })
+  @ApiParam({ name: 'id', description: 'ID of the tip to retrieve' })
+  @ApiOkResponse({ description: 'The found tip'})
+  @ApiNotFoundResponse({ description: 'Tip not found' })
+  @ApiInternalServerErrorResponse({ description: 'Server error' })
+  async getTipById(@Param('id') id: string): Promise<Logs> {
+    try {
+      return await this.discordBotService.getTipById(id);
+    } catch (error) {
+        throw new NotFoundException(`Tip with ID ${id} not found`);
+    }
   }
 }

@@ -12,7 +12,7 @@ export class ApiKeyGuard implements CanActivate {
   constructor(private readonly httpService: HttpService) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const apiKey = request.headers['apikey'];
+    const apiKey = request.headers['x-api-key'];
 
     if (!apiKey) {
       throw new UnauthorizedException('API key is missing');
@@ -20,10 +20,13 @@ export class ApiKeyGuard implements CanActivate {
 
     try {
       const response = await lastValueFrom(
-        this.httpService.post(process.env.AUTH_URL, { key: apiKey }),
+        this.httpService.post(process.env.AUTH_URL, {
+          key: apiKey,
+          headers: { 'x-api-key': process.env.BOT_APIKEY },
+        }),
       );
 
-      if (response) {
+      if (response.data === true) {
         return true;
       } else {
         throw new UnauthorizedException('Invalid API key format');
@@ -33,3 +36,4 @@ export class ApiKeyGuard implements CanActivate {
     }
   }
 }
+
