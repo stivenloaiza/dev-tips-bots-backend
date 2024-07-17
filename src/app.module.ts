@@ -10,6 +10,7 @@ import { DiscordService } from './modules/discord-bot/services/discord-bot.servi
 import { BotController } from './common/controllers/bots.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { logSchema, Logs } from './common/entities/log-entity';
+import { LogsService } from './common/services/logs.service';
 
 @Module({
   imports: [
@@ -25,6 +26,6 @@ import { logSchema, Logs } from './common/entities/log-entity';
     HttpModule,
   ],
   controllers: [BotController],
-  providers: [TelegramBotService, DiscordService],
+  providers: [TelegramBotService, DiscordService,LogsService],
 })
 export class AppModule {}
