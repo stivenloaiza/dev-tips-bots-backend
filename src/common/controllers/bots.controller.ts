@@ -25,6 +25,7 @@ import { TipDto } from '../dtos/tipDto';
 import { ApiKeyGuard } from 'src/common/guards/api-key.guard';
 import { DiscordService } from 'src/modules/discord-bot/services/discord-bot.service';
 import { TelegramBotService } from 'src/modules/telegram-bot/services/telegram-bot.service';
+import { LogsService } from '../services/logs.service';
 import { Logs } from '../entities/log-entity';
 
 @ApiTags('Bots')
@@ -32,6 +33,7 @@ import { Logs } from '../entities/log-entity';
 export class BotController {
   constructor(
     private readonly discordBotService: DiscordService,
+    private readonly logsService: LogsService,
     private readonly telegramBotService: TelegramBotService,
   ) { }
 
@@ -66,7 +68,7 @@ export class BotController {
   @ApiInternalServerErrorResponse({ description: 'Server error' })
   @ApiNotFoundResponse({ description: 'Tip not found' })
   async getAllTips(): Promise<Logs[]> {
-    return this.discordBotService.getAllTips();
+    return await this.logsService.getAllTips();
   }
 
   @Get('search/:id')
@@ -77,7 +79,7 @@ export class BotController {
   @ApiInternalServerErrorResponse({ description: 'Server error' })
   async getTipById(@Param('id') id: string): Promise<Logs> {
     try {
-      return await this.discordBotService.getTipById(id);
+      return await this.logsService.getTipById(id);
     } catch (error) {
         throw new NotFoundException(`Tip with ID ${id} not found`);
     }
