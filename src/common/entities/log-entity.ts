@@ -12,7 +12,7 @@ export class Logs {
   link: string;
 
   @Prop()
-  level: string;
+  levels: string;
 
   @Prop()
   technology: string;

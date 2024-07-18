@@ -25,7 +25,7 @@ export class TipDto {
   @ApiProperty({ description: 'Difficulty level of the tip', example: 'Junior' })
   @IsString()
   @IsNotEmpty()
-  level: string;
+  levels: string;
 
   @ApiProperty({ description: 'Language of the tip', example: 'English' })
   @IsString()
@@ -36,12 +36,7 @@ export class TipDto {
   @IsString()
   @IsNotEmpty()
   technology: string;
-
-  @ApiProperty({ description: 'Subtechnology related to the tip', example: 'Docker Compose' })
-  @IsString()
-  @IsNotEmpty()
-  subtechnology: string;
-
+  
   @ApiProperty({ description: 'Channel ID where the tip will be sent', example: '123456789' })
   @IsString()
   @IsNotEmpty()
