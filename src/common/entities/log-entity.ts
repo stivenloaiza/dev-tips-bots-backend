@@ -12,10 +12,13 @@ export class Logs {
   link: string;
 
   @Prop()
-  levels: string;
+  level: string;
 
   @Prop()
   technology: string;
+
+  @Prop()
+  subtechnology: string;
 
   @Prop()
   lang: string;
@@ -25,6 +28,9 @@ export class Logs {
 
   @Prop()
   channelType: string;
+
+  @Prop({ default: 'unavailable' })
+  img_url: string;
 
   @Prop()
   createdAt: Date;

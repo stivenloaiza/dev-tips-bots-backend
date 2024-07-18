@@ -5,8 +5,9 @@ export const messages = {
       <b>🏷️ Nivel:</b> ${tip.level}\n
       <b>🌐 Lenguaje:</b> ${tip.lang}\n
       <b>🔧 Tecnología:</b> ${tip.technology}\n
+      <b>🔍 Subtecnología:</b> ${tip.subtechnology}
       ${tip.link ? `\n\n<b>📚 Recurso:</b> <a href="${tip.link}">¡Consulta más información aquí!</a>` : ''}
-      ${tip.multimedia_url ? `\n\n<img src="${tip.multimedia_url}" />` : ''}
+      ${tip.img_url ? `\n\n<img src="${tip.img_url}" />` : ''}
     `,
   english: (tip) => `
       <b>💡 Tip Title:</b> ${tip.title}\n\n
@@ -14,8 +15,9 @@ export const messages = {
       <b>🏷️ Level:</b> ${tip.level}\n
       <b>🌐 Language:</b> ${tip.lang}\n
       <b>🔧 Technology:</b> ${tip.technology}\n
+      <b>🔍 Subtechnology:</b> ${tip.subtechnology}
       ${tip.link ? `\n\n<b>📚 Resource:</b> <a href="${tip.link}">Check out more info here!</a>` : ''}
-      ${tip.multimedia_url ? `\n\n<img src="${tip.multimedia_url}" />` : ''}
+      ${tip.img_url ? `\n\n<img src="${tip.img_url}" />` : ''}
     `,
   unsupported: (tip) => `
       <b>Sorry, we have no tips available in the requested language. 😢</b>\n\n
