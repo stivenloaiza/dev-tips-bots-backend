@@ -50,5 +50,5 @@ export class TipDto {
   @ApiProperty({ description: 'Channel name (e.g., discord, telegram)', example: 'discord' })
   @IsString()
   @IsNotEmpty()
-  channel: string;
+  channelType: string;
 }

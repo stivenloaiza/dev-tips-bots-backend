@@ -18,13 +18,13 @@ export class Logs {
   technology: string;
 
   @Prop()
-  language: string;
+  lang: string;
 
   @Prop()
   channelId: number;
 
   @Prop()
-  channel: string;
+  channelType: string;
 
   @Prop()
   createdAt: Date;

@@ -13,6 +13,7 @@ import {
 import { 
   ApiBadRequestResponse, 
   ApiBody, 
+  ApiHeader, 
   ApiInternalServerErrorResponse, 
   ApiNotFoundResponse, 
   ApiOkResponse, 
@@ -39,6 +40,11 @@ export class BotController {
 
   @Post('tip')
   @UsePipes(new ValidationPipe())
+  @ApiHeader({
+    name: 'x-api-key',
+    description: 'API Key',
+    required: true,
+  })
   @UseGuards(ApiKeyGuard)
   @ApiOperation({ summary: 'Send a tip to a specified channel (Discord/Telegram)' })
   @ApiOkResponse({ description: 'Tip sent successfully!' })
@@ -48,9 +54,9 @@ export class BotController {
   @ApiInternalServerErrorResponse({ description: 'Server error' })
   @ApiBody({ type: TipDto, description: 'Tip data' })
   async getTip(@Body() tipDto: TipDto) {
-    if (tipDto.channel.toLowerCase() === 'discord') {
+    if (tipDto.channelType.toLowerCase() === 'discord') {
       await this.discordBotService.getTip(tipDto);
-    } else if (tipDto.channel.toLowerCase() === 'telegram') {
+    } else if (tipDto.channelType.toLowerCase() === 'telegram') {
       await this.telegramBotService.getTip(tipDto);
     } else {
       throw new Error('Unsupported channel');
