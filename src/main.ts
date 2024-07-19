@@ -27,7 +27,11 @@ async function bootstrap() {
   SwaggerModule.setup('api-doc', app, document);
 
   await app.listen(3000);
-  app.enableCors()
+  app.enableCors({
+    origin: '*',
+    methods: 'GET, HEAD, PUT, PATCH, POST',
+    allowedHeaders: 'Content-Type, Accept',
+  });
 
   console.log('Project started => localhost:3000');
   console.log('=========================================================');
