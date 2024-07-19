@@ -13,6 +13,7 @@ import {
 import { 
   ApiBadRequestResponse, 
   ApiBody, 
+  ApiHeader, 
   ApiInternalServerErrorResponse, 
   ApiNotFoundResponse, 
   ApiOkResponse, 
@@ -25,6 +26,7 @@ import { TipDto } from '../dtos/tipDto';
 import { ApiKeyGuard } from 'src/common/guards/api-key.guard';
 import { DiscordService } from 'src/modules/discord-bot/services/discord-bot.service';
 import { TelegramBotService } from 'src/modules/telegram-bot/services/telegram-bot.service';
+import { LogsService } from '../services/logs.service';
 import { Logs } from '../entities/log-entity';
 
 @ApiTags('Bots')
@@ -32,11 +34,17 @@ import { Logs } from '../entities/log-entity';
 export class BotController {
   constructor(
     private readonly discordBotService: DiscordService,
+    private readonly logsService: LogsService,
     private readonly telegramBotService: TelegramBotService,
   ) { }
 
   @Post('tip')
   @UsePipes(new ValidationPipe())
+  @ApiHeader({
+    name: 'x-api-key',
+    description: 'API Key',
+    required: true,
+  })
   @UseGuards(ApiKeyGuard)
   @ApiOperation({ summary: 'Send a tip to a specified channel (Discord/Telegram)' })
   @ApiOkResponse({ description: 'Tip sent successfully!' })
@@ -46,9 +54,9 @@ export class BotController {
   @ApiInternalServerErrorResponse({ description: 'Server error' })
   @ApiBody({ type: TipDto, description: 'Tip data' })
   async getTip(@Body() tipDto: TipDto) {
-    if (tipDto.channel.toLowerCase() === 'discord') {
+    if (tipDto.channelType.toLowerCase() === 'discord') {
       await this.discordBotService.getTip(tipDto);
-    } else if (tipDto.channel.toLowerCase() === 'telegram') {
+    } else if (tipDto.channelType.toLowerCase() === 'telegram') {
       await this.telegramBotService.getTip(tipDto);
     } else {
       throw new Error('Unsupported channel');
@@ -66,7 +74,7 @@ export class BotController {
   @ApiInternalServerErrorResponse({ description: 'Server error' })
   @ApiNotFoundResponse({ description: 'Tip not found' })
   async getAllTips(): Promise<Logs[]> {
-    return this.discordBotService.getAllTips();
+    return await this.logsService.getAllTips();
   }
 
   @Get('search/:id')
@@ -77,7 +85,7 @@ export class BotController {
   @ApiInternalServerErrorResponse({ description: 'Server error' })
   async getTipById(@Param('id') id: string): Promise<Logs> {
     try {
-      return await this.discordBotService.getTipById(id);
+      return await this.logsService.getTipById(id);
     } catch (error) {
         throw new NotFoundException(`Tip with ID ${id} not found`);
     }

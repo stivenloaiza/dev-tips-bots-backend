@@ -18,13 +18,19 @@ export class Logs {
   technology: string;
 
   @Prop()
-  language: string;
+  subtechnology: string;
+
+  @Prop()
+  lang: string;
 
   @Prop()
   channelId: number;
 
   @Prop()
-  channel: string;
+  channelType: string;
+
+  @Prop({ default: 'unavailable' })
+  img_url: string;
 
   @Prop()
   createdAt: Date;

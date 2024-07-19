@@ -5,7 +5,7 @@ export class TipDto {
   @ApiProperty({ description: 'URL for multimedia content associated with the tip (optional)', example: 'http://example.com/image.png' })
   @IsUrl()
   @IsOptional()
-  multimedia_url?: string;
+  img_url?: string;
 
   @ApiProperty({ description: 'Title of the tip', example: 'How to use Docker' })
   @IsString()
@@ -37,10 +37,12 @@ export class TipDto {
   @IsNotEmpty()
   technology: string;
 
-  @ApiProperty({ description: 'Subtechnology related to the tip', example: 'Docker Compose' })
+  
+  @ApiProperty({ description: 'Subtechnology related to the tip', example: 'Docker' })
   @IsString()
   @IsNotEmpty()
   subtechnology: string;
+
 
   @ApiProperty({ description: 'Channel ID where the tip will be sent', example: '123456789' })
   @IsString()
@@ -50,5 +52,5 @@ export class TipDto {
   @ApiProperty({ description: 'Channel name (e.g., discord, telegram)', example: 'discord' })
   @IsString()
   @IsNotEmpty()
-  channel: string;
+  channelType: string;
 }

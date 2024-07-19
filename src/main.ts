@@ -20,12 +20,18 @@ async function bootstrap() {
   )
   .setVersion('1.0')
   .addBearerAuth()
+  .addApiKey({ type: 'apiKey', name: 'x-api-key', in: 'header' }, 'x-api-key')
   .build();
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-doc', app, document);
 
   await app.listen(3000);
+  app.enableCors({
+    origin: '*',
+    methods: 'GET, HEAD, PUT, PATCH, POST',
+    allowedHeaders: 'Content-Type, Accept',
+  });
 
   console.log('Project started => localhost:3000');
   console.log('=========================================================');
