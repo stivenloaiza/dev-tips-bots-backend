@@ -84,18 +84,21 @@ export class DiscordService implements OnModuleInit {
   }
 
   async saveTipToDatabase(createDiscordTip: TipDto): Promise<Logs> {
-    const createdTip = new this.logsModel({
-      ...createDiscordTip,
-      createdAt: new Date(),
-    });
-    return createdTip.save();
+    try {
+      const createdTip = new this.logsModel({
+        ...createDiscordTip,
+        createdAt: new Date(),
+      });
+      return createdTip.save();
+    } catch (error) {
+      console.error(`Error saving the tip ${error}`);
+    }
   }
 
- 
+
   async getAllTips(): Promise<Logs[]> {
     return this.logsModel.find().exec();
   }
-
 
   async getTipById(id: string): Promise<Logs> {
     const tip = await this.logsModel.findById(id).exec();
@@ -106,5 +109,4 @@ export class DiscordService implements OnModuleInit {
     }
     return tip;
   }
-
 }

@@ -26,6 +26,6 @@ import { LogsService } from './common/services/logs.service';
     HttpModule,
   ],
   controllers: [BotController],
-  providers: [TelegramBotService, DiscordService,LogsService],
+  providers: [TelegramBotService, DiscordService, LogsService],
 })
 export class AppModule {}
