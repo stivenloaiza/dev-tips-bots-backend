@@ -1,5 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsUrl, IsOptional, IsNotEmpty } from 'class-validator';
+import { IsString, IsUrl, IsOptional, IsNotEmpty, IsEnum } from 'class-validator';
+import { LevelEnumType} from '../enums/enum.level';
+import { LangEnumType } from '../enums/enum.lang';
+import { ChannelEnumType } from '../enums/enum.channel';
 
 export class TipDto {
   @ApiProperty({ description: 'URL for multimedia content associated with the tip (optional)', example: 'http://example.com/image.png' })
@@ -36,20 +39,18 @@ export class TipDto {
   @IsString()
   @IsNotEmpty()
   technology: string;
-
   
   @ApiProperty({ description: 'Subtechnology related to the tip', example: 'Docker' })
   @IsString()
   @IsNotEmpty()
   subtechnology: string;
 
-
   @ApiProperty({ description: 'Channel ID where the tip will be sent', example: '123456789' })
   @IsString()
   @IsNotEmpty()
   channelId: string;
 
-  @ApiProperty({ description: 'Channel name (e.g., discord, telegram)', example: 'discord' })
+  @ApiProperty()
   @IsString()
   @IsNotEmpty()
   channelType: string;

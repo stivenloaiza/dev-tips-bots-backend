@@ -23,7 +23,7 @@ import {
   ApiUnauthorizedResponse 
 } from '@nestjs/swagger';
 import { TipDto } from '../dtos/tipDto';
-import { ApiKeyGuard } from 'src/common/guards/api-key.guard';
+import { ApiKeyGuard } from '../guards/api-key.guard';
 import { DiscordService } from 'src/modules/discord-bot/services/discord-bot.service';
 import { TelegramBotService } from 'src/modules/telegram-bot/services/telegram-bot.service';
 import { LogsService } from '../services/logs.service';
