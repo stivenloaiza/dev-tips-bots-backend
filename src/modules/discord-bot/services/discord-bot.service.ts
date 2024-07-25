@@ -91,12 +91,12 @@ export class DiscordService implements OnModuleInit {
     return createdTip.save();
   }
 
-  // Method to get all tips
+ 
   async getAllTips(): Promise<Logs[]> {
     return this.logsModel.find().exec();
   }
 
-  // Method to get a tip by ID
+
   async getTipById(id: string): Promise<Logs> {
     const tip = await this.logsModel.findById(id).exec();
     console.log(tip);
