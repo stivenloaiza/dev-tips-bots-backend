@@ -1,4 +1,4 @@
 export enum ChannelEnumType {
-    discord = "discord",
-    telegram = "telegram"
+  discord = 'discord',
+  telegram = 'telegram',
 }

@@ -22,7 +22,6 @@ export class TelegramBotService implements OnModuleInit {
   ) {}
 
   onModuleInit() {
-
     const token = process.env.TELEGRAM_BOT_TOKEN;
 
     if (!token) {
@@ -38,45 +37,34 @@ export class TelegramBotService implements OnModuleInit {
     await this.bot.setWebHook(url);
   } */
 
-
-  //Create the format of the message 
+  //Create the format of the message
 
   formatTipMessage(tip: TipDto): string {
-
     //validate param (tipDto)
     if (
       tip.lang.toLowerCase() === 'spanish' ||
       tip.lang.toLowerCase() === 'español'
     ) {
       return messages.spanish(tip);
-         
-    
     } else if (
       tip.lang.toLowerCase() === 'english' ||
       tip.lang.toLowerCase() === 'inglés' ||
       tip.lang.toLowerCase() === 'ingles'
     ) {
-
-      return messages.english(tip)
+      return messages.english(tip);
     } else {
-      
       return messages.unsupported(tip);
-      
     }
   }
 
+  async saveTipToDatabase(tipDto: TipDto): Promise<Logs> {
+    const createdTip = new this.logsModel({
+      ...tipDto,
+      createdAt: new Date(),
+    });
 
-  async saveTipToDatabase(tipDto: TipDto): Promise<Logs>{
-
-      const createdTip = new this.logsModel({
-        ...tipDto,
-        createdAt: new Date(),
-      });
-  
-      return await createdTip.save(); 
-   
+    return await createdTip.save();
   }
-
 
   async getTip(tipDto: TipDto): Promise<void> {
     try {

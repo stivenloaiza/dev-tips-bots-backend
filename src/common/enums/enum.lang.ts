@@ -1,4 +1,4 @@
 export enum LangEnumType {
-    spanish = "spanish",
-    english = "english"
-} 
+  spanish = 'spanish',
+  english = 'english',
+}

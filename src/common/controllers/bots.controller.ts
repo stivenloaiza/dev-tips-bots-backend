@@ -10,17 +10,17 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { 
-  ApiBadRequestResponse, 
-  ApiBody, 
-  ApiHeader, 
-  ApiInternalServerErrorResponse, 
-  ApiNotFoundResponse, 
-  ApiOkResponse, 
-  ApiOperation, 
-  ApiParam, 
-  ApiTags, 
-  ApiUnauthorizedResponse 
+import {
+  ApiBadRequestResponse,
+  ApiBody,
+  ApiHeader,
+  ApiInternalServerErrorResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiParam,
+  ApiTags,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { TipDto } from '../dtos/tipDto';
 import { ApiKeyGuard } from '../guards/api-key.guard';
@@ -36,7 +36,7 @@ export class BotController {
     private readonly discordBotService: DiscordService,
     private readonly logsService: LogsService,
     private readonly telegramBotService: TelegramBotService,
-  ) { }
+  ) {}
 
   @Post('tip')
   @UsePipes(new ValidationPipe())
@@ -46,7 +46,9 @@ export class BotController {
     required: true,
   })
   @UseGuards(ApiKeyGuard)
-  @ApiOperation({ summary: 'Send a tip to a specified channel (Discord/Telegram)' })
+  @ApiOperation({
+    summary: 'Send a tip to a specified channel (Discord/Telegram)',
+  })
   @ApiOkResponse({ description: 'Tip sent successfully!' })
   @ApiBadRequestResponse({ description: 'Invalid input' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
@@ -68,9 +70,9 @@ export class BotController {
     };
   }
 
-  @Get("/all")
+  @Get('/all')
   @ApiOperation({ summary: 'Get all tips' })
-  @ApiOkResponse({ description: 'List of all tips'})
+  @ApiOkResponse({ description: 'List of all tips' })
   @ApiInternalServerErrorResponse({ description: 'Server error' })
   @ApiNotFoundResponse({ description: 'Tip not found' })
   async getAllTips(): Promise<Logs[]> {
@@ -80,14 +82,14 @@ export class BotController {
   @Get('search/:id')
   @ApiOperation({ summary: 'Get a tip by ID' })
   @ApiParam({ name: 'id', description: 'ID of the tip to retrieve' })
-  @ApiOkResponse({ description: 'The found tip'})
+  @ApiOkResponse({ description: 'The found tip' })
   @ApiNotFoundResponse({ description: 'Tip not found' })
   @ApiInternalServerErrorResponse({ description: 'Server error' })
   async getTipById(@Param('id') id: string): Promise<Logs> {
     try {
       return await this.logsService.getTipById(id);
     } catch (error) {
-        throw new NotFoundException(`Tip with ID ${id} not found`);
+      throw new NotFoundException(`Tip with ID ${id} not found`);
     }
   }
 }

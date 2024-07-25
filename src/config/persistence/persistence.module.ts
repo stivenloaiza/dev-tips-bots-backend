@@ -16,7 +16,7 @@ import dbConfig from './db-config';
     MongooseModule.forRootAsync({
       useFactory: (configService: ConfigType<typeof dbConfig>) => {
         const { db } = configService;
-        const uriDb =`${db.mongoHost}/${db.user}:${db.password}${db.cluster}${db.name}?retryWrites=true&w=majority`;
+        const uriDb = `${db.mongoHost}/${db.user}:${db.password}${db.cluster}${db.name}?retryWrites=true&w=majority`;
         return {
           uri: uriDb,
         };
