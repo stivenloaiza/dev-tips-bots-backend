@@ -95,28 +95,12 @@
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],
-
-    "coverageDirectory": "../coverage",
     "testEnvironment": "node",
-    "coveragePathIgnorePatterns": [
-      "/node_modules/",
-      "/dist/",
-      "/migrations/",
-      "/utils/",
-      "src/common/controllers",
-      "src/common/dtos",
-      "src/common/guards",
-      "src/common/messages",
-      "src/common/entities"
-    ],
     "testPathIgnorePatterns": [
       "/node_modules/",
       "/dist/",
       "/migrations/",
       "/utils/"
     ]
-
-    "testEnvironment": "node"
-
   }
 }
