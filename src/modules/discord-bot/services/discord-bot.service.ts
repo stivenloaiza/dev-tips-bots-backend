@@ -91,11 +91,9 @@ export class DiscordService implements OnModuleInit {
     return createdTip.save();
   }
 
- 
   async getAllTips(): Promise<Logs[]> {
     return this.logsModel.find().exec();
   }
-
 
   async getTipById(id: string): Promise<Logs> {
     const tip = await this.logsModel.findById(id).exec();
@@ -106,5 +104,4 @@ export class DiscordService implements OnModuleInit {
     }
     return tip;
   }
-
 }

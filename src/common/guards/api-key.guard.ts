@@ -20,14 +20,18 @@ export class ApiKeyGuard implements CanActivate {
 
     try {
       const response = await lastValueFrom(
-        this.httpService.post(process.env.AUTH_URL, {
-          key: apiKey,
-        }, {
-          headers: {
-            'x-api-key': process.env.BOT_APIKEY,
+        this.httpService.post(
+          process.env.AUTH_URL,
+          {
+            key: apiKey,
           },
-        }),
-      );      
+          {
+            headers: {
+              'x-api-key': process.env.BOT_APIKEY,
+            },
+          },
+        ),
+      );
 
       if (response.data === true) {
         return true;
@@ -39,4 +43,3 @@ export class ApiKeyGuard implements CanActivate {
     }
   }
 }
-
