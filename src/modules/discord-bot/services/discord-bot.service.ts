@@ -84,13 +84,21 @@ export class DiscordService implements OnModuleInit {
   }
 
   async saveTipToDatabase(createDiscordTip: TipDto): Promise<Logs> {
-    const createdTip = new this.logsModel({
-      ...createDiscordTip,
-      createdAt: new Date(),
-    });
-    return createdTip.save();
+    try {
+      const createdTip = new this.logsModel({
+        ...createDiscordTip,
+        createdAt: new Date(),
+      });
+      return createdTip.save();
+    } catch (error) {
+      console.error(`Error saving the tip ${error}`);
+    }
   }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4dffcd18f3981be20c4629a80d1330240d7fa81f
   async getAllTips(): Promise<Logs[]> {
     return this.logsModel.find().exec();
   }

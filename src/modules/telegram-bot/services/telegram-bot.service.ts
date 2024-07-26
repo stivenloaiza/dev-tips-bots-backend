@@ -4,7 +4,7 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import * as TelegramBot from 'node-telegram-bot-api';
+import TelegramBot from 'node-telegram-bot-api';
 import axios from 'axios';
 import { TipDto } from '../../../common/dtos/tipDto';
 import { messages } from '../../../common/messages/messagesLangTelegram';
@@ -23,9 +23,11 @@ export class TelegramBotService implements OnModuleInit {
 
   onModuleInit() {
     const token = process.env.TELEGRAM_BOT_TOKEN;
+
     if (!token) {
-      throw new Error('TOKEN is not defined');
+      throw new Error('Telegram bot token is not defined');
     }
+
     this.bot = new TelegramBot(token);
     /* this.setWebhook(); */
   }
@@ -35,7 +37,10 @@ export class TelegramBotService implements OnModuleInit {
     await this.bot.setWebHook(url);
   } */
 
-  private formatTipMessage(tip: TipDto): string {
+  //Create the format of the message
+
+  formatTipMessage(tip: TipDto): string {
+    //validate param (tipDto)
     if (
       tip.lang.toLowerCase() === 'spanish' ||
       tip.lang.toLowerCase() === 'español'
@@ -51,18 +56,19 @@ export class TelegramBotService implements OnModuleInit {
       return messages.unsupported(tip);
     }
   }
+
   async saveTipToDatabase(tipDto: TipDto): Promise<Logs> {
     const createdTip = new this.logsModel({
       ...tipDto,
       createdAt: new Date(),
     });
-    return createdTip.save();
+
+    return await createdTip.save();
   }
 
   async getTip(tipDto: TipDto): Promise<void> {
     try {
       const message = this.formatTipMessage(tipDto);
-
       const url = `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`;
 
       await axios.post(url, {
