@@ -3,18 +3,18 @@ import {
   InternalServerErrorException,
   NotFoundException,
   OnModuleInit,
-} from '@nestjs/common';
+} from "@nestjs/common";
 import {
   ChannelType,
   Client,
   GatewayIntentBits,
   TextChannel,
-} from 'discord.js';
-import { Logs } from '../../../common/entities/log-entity';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { TipDto } from 'src/common/dtos/tipDto';
-import { messages } from '../../../common/messages/messagesLangDiscord';
+} from "discord.js";
+import { Logs } from "../../../common/entities/log-entity";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
+import { TipDto } from "src/common/dtos/tipDto";
+import { messages } from "../../../common/messages/messagesLangDiscord";
 
 @Injectable()
 export class DiscordService implements OnModuleInit {
@@ -28,21 +28,21 @@ export class DiscordService implements OnModuleInit {
 
   async onModuleInit() {
     await this.client.login(process.env.BOT_TOKEN);
-    this.client.on('ready', () => {
+    this.client.on("ready", () => {
       console.log(`Logged in as ${this.client.user.tag}!`);
     });
   }
 
   formatTipMessage(tip: TipDto): string {
     if (
-      tip.lang.toLowerCase() === 'spanish' ||
-      tip.lang.toLowerCase() === 'español'
+      tip.lang.toLowerCase() === "spanish" ||
+      tip.lang.toLowerCase() === "español"
     ) {
       return messages.spanish(tip);
     } else if (
-      tip.lang.toLowerCase() === 'english' ||
-      tip.lang.toLowerCase() === 'inglés' ||
-      tip.lang.toLowerCase() === 'ingles'
+      tip.lang.toLowerCase() === "english" ||
+      tip.lang.toLowerCase() === "inglés" ||
+      tip.lang.toLowerCase() === "ingles"
     ) {
       return messages.english(tip);
     } else {
@@ -58,7 +58,7 @@ export class DiscordService implements OnModuleInit {
 
       if (!channel || channel.type !== ChannelType.GuildText) {
         throw new NotFoundException(
-          `Channel ${channelId} is not a text channel or does not exist.`,
+          `Channel ${channelId} is not a text channel or does not exist.`
         );
       }
 
@@ -67,7 +67,7 @@ export class DiscordService implements OnModuleInit {
 
       if (!response) {
         throw new InternalServerErrorException(
-          `Failed to send tip to channel ${channelId}.`,
+          `Failed to send tip to channel ${channelId}.`
         );
       }
 
@@ -78,25 +78,27 @@ export class DiscordService implements OnModuleInit {
     } catch (err) {
       console.log(err);
       throw new InternalServerErrorException(
-        'Failed to send tip. Please try again later.',
+        "Failed to send tip. Please try again later."
       );
     }
   }
 
   async saveTipToDatabase(createDiscordTip: TipDto): Promise<Logs> {
-    const createdTip = new this.logsModel({
-      ...createDiscordTip,
-      createdAt: new Date(),
-    });
-    return createdTip.save();
+    try {
+      const createdTip = new this.logsModel({
+        ...createDiscordTip,
+        createdAt: new Date(),
+      });
+      return createdTip.save();
+    } catch (error) {
+      console.error(`Error saving the tip ${error}`);
+    }
   }
 
-  // Method to get all tips
   async getAllTips(): Promise<Logs[]> {
     return this.logsModel.find().exec();
   }
 
-  // Method to get a tip by ID
   async getTipById(id: string): Promise<Logs> {
     const tip = await this.logsModel.findById(id).exec();
     console.log(tip);
@@ -106,5 +108,4 @@ export class DiscordService implements OnModuleInit {
     }
     return tip;
   }
-
 }

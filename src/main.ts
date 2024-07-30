@@ -14,14 +14,14 @@ async function bootstrap() {
   );
 
   const config = new DocumentBuilder()
-  .setTitle('BOT Tips | Telegram - Discord')
-  .setDescription(
-    'is an API designed to manage and send programming language news tips to a specific Discord or Telegram channel. This API allows users to send programming tips, which are automatically sent to a Discord or Telegram channel according to the frequency specified at the time of user registration.,',
-  )
-  .setVersion('1.0')
-  .addBearerAuth()
-  .addApiKey({ type: 'apiKey', name: 'x-api-key', in: 'header' }, 'x-api-key')
-  .build();
+    .setTitle('BOT Tips | Telegram - Discord')
+    .setDescription(
+      'is an API designed to manage and send programming language news tips to a specific Discord or Telegram channel. This API allows users to send programming tips, which are automatically sent to a Discord or Telegram channel according to the frequency specified at the time of user registration.,',
+    )
+    .setVersion('1.0')
+    .addBearerAuth()
+    .addApiKey({ type: 'apiKey', name: 'x-api-key', in: 'header' }, 'x-api-key')
+    .build();
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-doc', app, document);
@@ -35,7 +35,7 @@ async function bootstrap() {
 
   console.log('Project started => localhost:3000');
   console.log('=========================================================');
-  console.log('Access to the project via Swagger: localhost:3000/api-doc');
+  console.log('Access to the project via Swagger: http://localhost:3000/api-doc');
 }
 
 bootstrap();
