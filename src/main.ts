@@ -35,7 +35,7 @@ async function bootstrap() {
 
   console.log('Project started => localhost:3000');
   console.log('=========================================================');
-  console.log('Access to the project via Swagger: localhost:3000/api-doc');
+  console.log('Access to the project via Swagger: http://localhost:3000/api-doc');
 }
 
 bootstrap();

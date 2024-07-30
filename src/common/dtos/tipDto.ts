@@ -50,7 +50,7 @@ export class TipDto {
 
   @ApiProperty({
     description: 'Technology related to the tip',
-    example: 'Docker',
+    example: 'Java',
   })
   @IsString()
   @IsNotEmpty()
@@ -58,7 +58,7 @@ export class TipDto {
 
   @ApiProperty({
     description: 'Subtechnology related to the tip',
-    example: 'Docker',
+    example: 'Springboot',
   })
   @IsString()
   @IsNotEmpty()
